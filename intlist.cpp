@@ -105,6 +105,9 @@ int IntList::max() const {
 // returns average (arithmetic mean) of all values, or
 // 0 if list is empty
 double IntList::average() const {
+    if (head == NULL)
+        return 0.0;
+
     int count = 0;
     double sum = 0.0;
     Node* curr = head;
@@ -172,6 +175,9 @@ int IntList::count() const {
 //Assignment operator should copy the list from the source
 //to this list, deleting/replacing any existing nodes
 IntList& IntList::operator=(const IntList& source){
+    if (this == &source){
+        return *this;
+    }
     
     Node* oldThis = head;
      Node* currS = source.head;
@@ -193,6 +199,7 @@ IntList& IntList::operator=(const IntList& source){
     
     head = new Node;
     head->info = currS->info;
+    head->next = NULL;
     Node* currObj = head;
    
 
