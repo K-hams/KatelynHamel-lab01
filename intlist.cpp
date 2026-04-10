@@ -9,14 +9,32 @@ using std::cout;
 
 // copy constructor
 IntList::IntList(const IntList& source) {
-   Node * obj = head;
-   Node* currS = source.head;
+    
+    head = NULL;
 
-   while(!(currS == NULL)){
-    obj->info = currS->info;
-    obj->next = currS->next;
+    
+    Node* currS = source.head;
 
-    obj = obj->next;
+    if (currS == NULL)
+        return;
+
+
+    head = new Node;
+    head->info = currS->info;
+    head->next = NULL;
+
+    Node* currObj = head;
+
+    head->info = currS->info;
+
+   while(!(currS->next == NULL)){
+        currObj->next = new Node;
+        currObj = currObj->next;
+
+        currObj->info = currS->next->info;
+        currObj->next=NULL;
+
+        currS = currS->next;
    }
 
 
@@ -40,7 +58,7 @@ int IntList::sum() const {
     Node* curr = head;
 
     while (!(curr == NULL)){
-        sum += head->info;
+        sum += curr->info;
 
         curr = curr->next;
     }
@@ -63,11 +81,14 @@ bool IntList::contains(int value) const {
 
 // returns maximum value in list, or 0 if empty list
 int IntList::max() const {
+    if (head == NULL)
+        return 0;
+
     Node* curr = head;
 
-    int maxVal = 0;
+    int maxVal = head->info;
     
-    while (!(curr == NULL)){
+    while (!(curr->next == NULL)){
         if (curr->info > maxVal)
             maxVal = curr->info;
         
@@ -116,6 +137,12 @@ void IntList::push_back(int value) {
     //making the new tail
     newNodePtr->info = value;
     newNodePtr->next = NULL;
+
+    if (head == NULL){
+        head = newNodePtr;
+        tail = newNodePtr;
+        return;
+    }
     
 
     //traversing to the end of the linked list so I can connect
@@ -145,6 +172,45 @@ int IntList::count() const {
 //Assignment operator should copy the list from the source
 //to this list, deleting/replacing any existing nodes
 IntList& IntList::operator=(const IntList& source){
+    
+    Node* oldThis = head;
+     Node* currS = source.head;
+
+    //deleting the old list of nodes
+    while (!(oldThis == NULL)){
+        Node* temp = oldThis;
+        oldThis = oldThis->next;
+        delete temp;
+
+    }
+
+
+    head = NULL;
+
+    if (currS == NULL)
+        return *this;
+
+    
+    head = new Node;
+    head->info = currS->info;
+    Node* currObj = head;
+   
+
+    while (!(currS->next == NULL)){
+        currObj->next = new Node;
+        currObj = currObj->next;
+
+        
+        currObj->info = currS->next->info;
+        currObj->next = NULL;
+
+        currS = currS->next;
+        
+
+    }
+
+
+    return *this;
     
 }
 
