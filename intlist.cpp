@@ -11,6 +11,7 @@ using std::cout;
 IntList::IntList(const IntList& source) {
     
     head = NULL;
+    tail = NULL;
 
     
     Node* currS = source.head;
@@ -37,6 +38,8 @@ IntList::IntList(const IntList& source) {
 
         currS = currS->next;
    }
+
+   tail = currObj;
 
 
 }
@@ -150,8 +153,10 @@ void IntList::push_back(int value) {
     
 
     //traversing to the end of the linked list so I can connect
-    while (!(curr->next == NULL)){
-        curr = curr->next;
+    if (head == NULL){
+        head = tail;
+        tail = newNodePtr;
+        return;
     }
     //connecting the new tail to the rest of list
     curr->next = newNodePtr;
@@ -181,7 +186,7 @@ IntList& IntList::operator=(const IntList& source){
     }
     
     Node* oldThis = head;
-     Node* currS = source.head;
+     Node* currS = source.head->next;
 
     //deleting the old list of nodes
     while (!(oldThis == NULL)){
@@ -205,12 +210,12 @@ IntList& IntList::operator=(const IntList& source){
     Node* currObj = head;
    
 
-    while (!(currS->next == NULL)){
+    while (!(currS == NULL)){
         currObj->next = new Node;
         currObj = currObj->next;
 
         
-        currObj->info = currS->next->info;
+        currObj->info = currS->info;
         currObj->next = NULL;
 
         currS = currS->next;
