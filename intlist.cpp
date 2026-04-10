@@ -26,12 +26,13 @@ IntList::IntList(const IntList& source) {
     Node* currObj = head;
 
     head->info = currS->info;
+    currS= currS->next;
 
-   while(!(currS->next == NULL)){
+   while(!(currS == NULL)){
         currObj->next = new Node;
         currObj = currObj->next;
 
-        currObj->info = currS->next->info;
+        currObj->info = currS->info;
         currObj->next=NULL;
 
         currS = currS->next;
@@ -192,6 +193,7 @@ IntList& IntList::operator=(const IntList& source){
 
 
     head = NULL;
+    tail = NULL;
 
     if (currS == NULL)
         return *this;
@@ -215,6 +217,8 @@ IntList& IntList::operator=(const IntList& source){
         
 
     }
+
+    tail = currObj;
 
 
     return *this;
