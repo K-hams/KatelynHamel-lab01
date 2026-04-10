@@ -151,15 +151,8 @@ void IntList::push_back(int value) {
         return;
     }
     
-
-    //traversing to the end of the linked list so I can connect
-    if (head == NULL){
-        head = tail;
-        tail = newNodePtr;
-        return;
-    }
     //connecting the new tail to the rest of list
-    curr->next = newNodePtr;
+    tail->next = newNodePtr;
     tail = newNodePtr;
  
 }
